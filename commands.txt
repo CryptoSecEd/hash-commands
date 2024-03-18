@@ -1,0 +1,16 @@
+for i in {1..1024}; do dd if=/dev/urandom of="$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 8).rand" bs=1k count=1; done 2> /dev/null
+
+for i in {0..9}; do mkdir "$i$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 7)"; done 2> /dev/null
+
+find -type d | grep -v '^.$' | sed -E 's/.\/(.)/mv \1*.rand \1/'
+
+mkdir "af$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 6)"
+
+find . -type f -exec sha256sum {} + > all_hashes.txt
+
+cut -d' ' -f1 all_hashes.txt > only_hashes.txt
+
+shuf -n 4 only_hashes.txt
+
+comm -12 malware.txt only_hashes_s.txt
+
