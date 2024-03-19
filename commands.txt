@@ -10,6 +10,10 @@ find . -type f -exec sha256sum {} + > all_hashes.txt
 
 cut -d' ' -f1 all_hashes.txt > only_hashes.txt
 
+sort only_hashes.txt > only_hashes_s.txt
+
+uniq -cd only_hashes_s.txt
+
 shuf -n 4 only_hashes.txt
 
 comm -12 malware.txt only_hashes_s.txt
