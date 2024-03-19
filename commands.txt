@@ -2,7 +2,7 @@ for i in {1..1024}; do dd if=/dev/urandom of="$(cat /dev/urandom | tr -cd 'a-f0-
 
 for i in {0..9}; do mkdir "$i$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 7)"; done 2> /dev/null
 
-find -type d | grep -v '^.$' | sed -E 's/.\/(.)/mv \1*.rand \1/'
+find -type d | grep -v -e '.git' -e '^.$' | sed -E 's/.\/(.)/mv \1*.rand \1/'
 
 mkdir "af$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 6)"
 
